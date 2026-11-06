@@ -71,7 +71,7 @@ Set `PROVE_IT_MODE` before Hermes starts.
 - Turns that delegate work (`delegate_task`) are not flagged; the child's ledger is separate.
 - Claim detection is deliberately conservative: a short, plain assertion only. Quoted text, parentheticals, negations, hedges and other people's actions are skipped. Static audit (extraction and ledger rules only; the live probes are covered by the tests and live runs) on one author's 8,733 real replies: 93 claims found, no confirmed false flag after hand-checking; hand-sampled recall roughly 70% of replies that contain a completion claim (n=22, a rough figure). An independent review before release found a false flag on quoted text, a `0 failed` mis-read and a probe-safety hole; all are fixed and covered by tests. See `DESIGN.md`.
 
-Requires Hermes 0.22.5 or later (`hold_stream` landed in that release line); developed and tested on 0.22.7.
+Requires Hermes 0.22.5 or later (`hold_stream` landed in that release line); developed on 0.22.7 and also tested on 0.23.0 (plugin validation, the test suites, and the hooks through the 0.23 dispatcher).
 
 ## Install
 
