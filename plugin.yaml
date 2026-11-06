@@ -1,0 +1,10 @@
+name: prove-it
+version: 0.1.0
+description: "Checks an agent's completion claims (pushed, file written, tests pass) against read-only probes before you read the reply. No model, no extra tokens."
+author: "Mike Gibbs and Iris Vale (testing by Nyx Voss), Onyx AI Labs"
+requires_hermes: ">=0.22.5"
+provides_hooks:
+  - post_tool_call
+  - transform_llm_output
+  - pre_approval_request
+  - post_approval_response
