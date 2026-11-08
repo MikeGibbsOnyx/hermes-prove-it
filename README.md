@@ -39,7 +39,7 @@ Not in v1 on purpose: "deployed / URL live" (an unreachable site is not a failed
 
 ## Modes
 
-Set `PROVE_IT_MODE` before Hermes starts.
+Set `plugins.entries.prove-it.settings.mode` (or use the Desktop Plugins tab); `PROVE_IT_MODE` still works as a fallback. Read at load, so restart after changing it.
 
 - `footer` (default): the reply streams normally and the verdict footer is appended.
 - `strict`: the reply is held until checked, then delivered once. On Telegram, Discord, Slack and Matrix that costs only the typing indicator; on TUI/CLI/desktop it drops live streaming and commentary for the turn.

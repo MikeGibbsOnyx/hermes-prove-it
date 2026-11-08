@@ -1,5 +1,5 @@
 """prove-it: checks an agent's completion claims against read-only probes. No model in the path.
-Mode (env PROVE_IT_MODE, read at load): footer (default) | strict (hold the reply until checked) | off (ledger only)."""
+Mode (plugin setting `mode`, else env PROVE_IT_MODE; read at load): footer (default) | strict (hold the reply until checked) | off (ledger only)."""
 from __future__ import annotations
 
 import json
@@ -13,7 +13,7 @@ from plugins.plugin_storage import plugin_db
 from . import claims, verify
 
 NAME = "prove-it"
-MODE = os.environ.get("PROVE_IT_MODE", "footer").lower()  # ponytail: env var; move to plugin config if users ask
+MODE = os.environ.get("PROVE_IT_MODE", "footer").lower()  # fallback for Hermes without ctx.get_config; register() prefers the plugin setting
 _CAP = 4000
 _KEEP_DAYS = 7  # ponytail: fixed retention; make it a setting if anyone asks
 _SECRET = re.compile(
@@ -186,6 +186,11 @@ def _slash(raw_args: str = "") -> str:
 
 
 def register(ctx):
+    global MODE
+    get = getattr(ctx, "get_config", None)
+    if get:  # plugins.entries.prove-it.settings.mode
+        m = str(get("mode", MODE)).lower()
+        MODE = m if m in ("footer", "strict", "off") else "footer"
     ctx.register_hook("post_tool_call", _on_post_tool_call)
     ctx.register_hook("pre_approval_request", _on_approval_request)
     ctx.register_hook("post_approval_response", _on_approval_response)

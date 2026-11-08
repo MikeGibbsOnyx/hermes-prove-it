@@ -44,3 +44,11 @@ import time as _t; _s = _t.time()
 ctx.h["post_tool_call"](tool_name="terminal", args={"command": "x" * 400000}, result="a:b" * 150000 + ' "exit_code": 0', session_id="S", turn_id="T6", status="ok")
 assert _t.time() - _s < 0.5, _t.time() - _s
 print(out.split("\n\n")[1]); print("plugin: all checks pass")
+
+# mode comes from the plugin setting when ctx.get_config exists; junk falls back to footer
+class C2(Ctx):
+    def __init__(s, v): super().__init__(); s.v = v
+    def get_config(s, k, d=None): return s.v
+for v, want in (("strict", "strict"), ("OFF", "off"), ("bogus", "footer")):
+    p.register(C2(v)); assert p.MODE == want, (v, p.MODE)
+print("mode setting: ok")
