@@ -39,4 +39,8 @@ rows = p._db().execute("SELECT tool_name, args, result FROM ledger WHERE turn_id
 assert "abcdefgh12345678" not in rows[0][1] and "hunter2pw" not in rows[0][1] and "AAHdqTcv" not in rows[0][1], rows[0][1]
 assert rows[0][2].startswith("[exit=7] "), rows[0][2][:20]          # exit code survives truncation
 assert rows[1][1] == "" and rows[1][2] == ""                         # unused tools keep no arguments or output
+# a huge output must not stall the observer hook (the secret pattern is quadratic on big input)
+import time as _t; _s = _t.time()
+ctx.h["post_tool_call"](tool_name="terminal", args={"command": "x" * 400000}, result="a:b" * 150000 + ' "exit_code": 0', session_id="S", turn_id="T6", status="ok")
+assert _t.time() - _s < 0.5, _t.time() - _s
 print(out.split("\n\n")[1]); print("plugin: all checks pass")

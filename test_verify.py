@@ -91,3 +91,10 @@ for claim_reply, cs in (("Pushed to the repo.", []), ("Pushed to the repo.", [{"
         if x["verdict"] == "unknown":
             assert "no git push ran" not in verify.line(x), verify.line(x)
 print("verify: all checks pass")
+
+# git child gets no provider keys, only PATH/HOME/LANG/LC_ALL + GIT_TERMINAL_PROMPT
+os.environ["OPENAI_API_KEY"] = "sk-test-should-not-leak"
+assert set(verify._ENV) <= {"PATH", "HOME", "LANG", "LC_ALL", "GIT_TERMINAL_PROMPT"} and verify._ENV["GIT_TERMINAL_PROMPT"] == "0", verify._ENV
+env_out = subprocess.run(["env"], capture_output=True, text=True, env=verify._ENV).stdout
+assert "sk-test-should-not-leak" not in env_out and "OPENAI_API_KEY" not in env_out
+print("verify env: ok")

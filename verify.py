@@ -16,7 +16,9 @@ except ImportError:  # run as a plain script / tests
 PROBE_TIMEOUT = 2.0   # seconds per subprocess
 BUDGET = 4.0          # seconds for the whole footer
 MAX_LINES = 5
-_ENV = dict(os.environ, GIT_TERMINAL_PROMPT="0")  # never block on a credential prompt
+# git gets only what it needs: the repo is picked from model output, so no provider keys ride along
+_ENV = {k: os.environ[k] for k in ("PATH", "HOME", "LANG", "LC_ALL") if k in os.environ}
+_ENV["GIT_TERMINAL_PROMPT"] = "0"  # never block on a credential prompt
 
 
 def _git(repo, *args):

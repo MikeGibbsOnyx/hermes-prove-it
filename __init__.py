@@ -29,7 +29,7 @@ _KEEP_TOOLS = {"terminal", "process_manage", "process", "write_file", "patch", "
 
 
 def _redact(text):
-    text = str(text).replace('\\"', '"')  # escaped JSON quotes would hide the key from the pattern
+    text = str(text)[:2 * _CAP].replace('\\"', '"')  # escaped JSON quotes would hide the key from the pattern
     return _SECRET.sub(lambda m: (m.group(1) + "[redacted]@") if m.group(1) else
                        ((m.group(2) + "[redacted]") if m.group(2) else "[redacted]"), text)
 
