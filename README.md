@@ -1,6 +1,6 @@
-# prove-it
+![prove-it: checks the agent's "done" against reality](demo/header.png)
 
-Checks an agent's completion claims against reality before you read the reply. a local git read for a push, a file stat for a write, an observable test result for "tests pass". No model in the check: regex extraction plus read-only local probes, under a hard time budget, with a footer that says what could not be verified instead of staying quiet.
+Checks an agent's completion claims against reality before you read the reply: a local git read for a push, a file stat for a write, an observable test result for "tests pass". No model in the check: regex extraction plus read-only local probes, under a hard time budget, with a footer that says what could not be verified instead of staying quiet.
 
 ```
 Done. Committed and pushed to the repo.
@@ -75,10 +75,14 @@ Requires Hermes 0.22.5 or later (`hold_stream` landed in that release line); dev
 
 ## Install
 
+prove-it is in the [Hermes plugin catalog](https://hermes-agent.nousresearch.com/marketplace/prove-it), so install it by name:
+
 ```
-hermes plugins install MikeGibbsOnyx/hermes-prove-it
+hermes plugins install prove-it
 hermes plugins enable prove-it
 ```
+
+Or straight from this repo: `hermes plugins install MikeGibbsOnyx/hermes-prove-it`.
 
 ## Tests
 
